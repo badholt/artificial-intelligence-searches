@@ -1,0 +1,59 @@
+*************************************l***************************************
+* Scaffolding for JHU Artificial Intelligence class, homework assignment 1. *
+*****************************************************************************
+Copyright 2014, Ben Mitchell
+All rights reserved
+
+
+--------------------------------------------------------------------------------
+1. Introduction
+--------------------------------------------------------------------------------
+
+This README is part of a scaffold provided for students taking JHU's Artificial
+Intelligence class.  It is intended to give students an idea of the directory
+structure they are expected to use when submitting assignments for this class.
+
+
+--------------------------------------------------------------------------------
+2. Usage
+--------------------------------------------------------------------------------
+
+All code resides in the src/ subdirectory, which also contains a Makefile that
+can build and run the code.  As a convenience, the top level directory also
+contains shellscripts which call `make`.
+
+You are not required to use Make; so long as your shell scripts do what they're
+supposed to, you can write them any way you like.
+
+
+The program here is a simple HelloWorld prorgam, intended primarily to
+demonstrate proper use of packages and directories.  The Makefile is fairly
+flexible (though intentionally on the simple side), and is intended to be an
+example of one way to manage a Java codebase without using an IDE for those who
+prefer to use command-line tools.
+
+To build the program, cd to the src/ subdirectory, and do `make`; to run the
+program, do `make run`; and to build the JavaDocs, do `make docs`.  The binary
+class files will be put in the bin/ subdirectory, and the html document files
+will be put in the doc/ subdirectory.
+
+See the assignment PDF for details about what you are expected to submit.
+
+
+--------------------------------------------------------------------------------
+3. Disclaimer
+--------------------------------------------------------------------------------
+
+This software was originally written only for the purpose of providing
+scaffolding for student projects.  It is not guaranteed in any sense to be
+suitable for any purpose and no warranty, express or implied, is provided.
+
+--------------------------------------------------------------------------------
+4. Terms of Use
+--------------------------------------------------------------------------------
+
+This software is only intended to be used by the members of the JHU Artificial
+Intelligence class taught by Ben Mitchell in the Spring of 2014.  Individuals
+to whom this software is distributed are permitted to use it only for the
+purpose of completing homework assignments provided in this class.  Any other
+use is expressly prohibited without written consent of the author.

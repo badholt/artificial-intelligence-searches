@@ -1,0 +1,37 @@
+
+      HOMEWORK 1: Search | CS335 Artificial Intelligence | Barbara Holt
+________________________________________________________________________________
+________________________________________________________________________________
+
+1. Included Files
+________________________________________________________________________________
+
+ + README
+
+ + bin
+
+ + data
+
+ + doc
+
+ + output
+
+ + src
+ ^-- Main.Java
+     This is the main program's description.  It takes these
+     arguments, has an interface maybe, and uses a
+     particular problem instance (with this appx. runtime).
+
+
+
+________________________________________________________________________________
+
+2. Reflections
+________________________________________________________________________________
+
+ First (and second) paragraph about my thoughts on the assignment
+ - things I liked and things I didn't like.  This is what I've
+ learned, and this is how I'd change the assignment if I were
+ in charge of creating them.
+
+ This is how long it took me to complete it.
