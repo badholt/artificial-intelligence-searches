@@ -1,30 +1,31 @@
 package edu.jhu.Barbara.cs335.hw1;
+import javax.xml.crypto.Data;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class DataReader {
-
     private Scanner scanner;
     private ArrayList<ArrayList<Coordinate>> mapData;
     private ArrayList<Coordinate> mapRow;
     private String[] firstLine;
     private String[] line;
-    public int height;
-    public int length;
-    public int startX;
-    public int startY;
-    public int goalX;
-    public int goalY;
+    static int height;
+    static int length;
+    private int startX;
+    private int startY;
+    private int goalX;
+    private int goalY;
 
     public DataReader(String filename, boolean classification) throws FileNotFoundException {
         this.scanner = new Scanner(new BufferedInputStream(new FileInputStream(filename)));
     }
 
-    public void close() {
+    public void closeScanner() {
         this.scanner.close();
     }
 
@@ -32,10 +33,38 @@ public class DataReader {
         String data;
         int posX;
         int posY;
-        boolean searched = false;
+        boolean leftSearched = false; boolean rightSearched = false;
+        boolean upSearched = false; boolean downSearched = false;
+
+        public void refresh() {
+            this.leftSearched = this.rightSearched = this.upSearched = this.downSearched = false;
+        }
     }
 
-    public ArrayList<ArrayList<Coordinate>> readData() {
+    public class Compass {
+        ArrayList<ArrayList<DataReader.Coordinate>> map; int startX; int startY; int goalX; int goalY; int height; int length;
+
+        public Compass (ArrayList<ArrayList<DataReader.Coordinate>> map, int startX, int startY, int goalX, int goalY) {
+            this.map = map;
+            this.goalX = goalX;
+            this.goalY = goalY;
+            this.height = DataReader.height;
+            this.length = DataReader.length;
+            this.startX = startX;
+            this.startY = startY;
+        }
+
+        public Coordinate getCurrent(int posX, int posY) {
+            return this.map.get(posY).get(posX);
+        }
+    }
+
+    public Compass compass() {
+        Compass guide = new Compass(this.mapData, this.startX, this.startY, this.goalX, this.goalY);
+        return guide;
+    }
+
+    public void readData() {
         this.mapData = new ArrayList<ArrayList<Coordinate>>();
 
         //We read the first line, which contains the length and height of the map:
@@ -68,7 +97,28 @@ public class DataReader {
             }
             j++;
         }
+    }
 
-        return this.mapData;
+    public void refreshMap () {
+        for (ArrayList<Coordinate> row : this.mapData) {
+            for (Coordinate coordinate : row) {
+                coordinate.refresh();
+            }
+        }
+    }
+
+    public String toString() {
+        String s = "";
+        for (ArrayList<Coordinate> row : this.mapData) {
+            for (Coordinate coordinate : row) {
+                if (coordinate.data.equals(".")|coordinate.data.equals(",")) {
+                    s += " " + coordinate.data + "   ";
+                } else {
+                    s += coordinate.data + "   ";
+                }
+            }
+            s += "\n";
+        }
+        return s;
     }
 }
