@@ -62,25 +62,15 @@ public class Main {
             if (search.toUpperCase().equals("BFS")) {
                 //Breadth First Search (BFS):
                 System.out.println("BREADTH FIRST SEARCH (BFS):");
-                long pre = System.nanoTime();
                 dataInput.BFS();
-                long post = System.nanoTime();
-                System.out.println("Runtime: " + (post - pre) / 1000000.0 + " ms");
             } else if (search.toUpperCase().equals("DFS")) {
                 //Depth First Search (DFS):
                 System.out.println("\nDEPTH FIRST SEARCH (DFS):");
-                long pre = System.nanoTime();
                 dataInput.DFS();
-                long post = System.nanoTime();
-                System.out.println("Runtime: " + (post - pre) / 1000000.0 + " ms");
             } else if (search.toUpperCase().equals("A*")) {
                 //A* Search (ASTAR):
                 System.out.println("\nA* SEARCH (ASTAR):");
-                long pre = System.nanoTime();
-                AStarSearch searchThree = new AStarSearch(dataInput.compass()); //TESTING: ONLY GOOD FOR MAP1-MAP4
-                searchThree.findGoal();
-                long post = System.nanoTime();
-                System.out.println("Runtime: " + (post - pre) / 1000000.0 + " ms");
+                dataInput.ASTAR();
             }
             //System.out.print(mapImage);
         }

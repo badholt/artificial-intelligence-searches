@@ -3,9 +3,7 @@ import sun.misc.Queue;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 
 public class DataReader {
@@ -14,6 +12,18 @@ public class DataReader {
     private ArrayList<Coordinate> mapRow;
     private Stack<Coordinate> stax = new Stack<Coordinate>();
     private Queue<Coordinate> q = new Queue<Coordinate>();
+    private PriorityQueue<Coordinate> priorityQ = new PriorityQueue<Coordinate>(4, new Comparator<Coordinate>() {
+        @Override
+        public int compare(Coordinate coord1, Coordinate coord2) throws NullPointerException, ClassCastException {
+            if (coord1.currentTotalCost + coord1.distanceFromGoal < coord2.currentTotalCost + coord2.distanceFromGoal) {
+                return -1;
+            } else if (coord1.currentTotalCost + coord1.distanceFromGoal == coord2.currentTotalCost + coord2.distanceFromGoal) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+    });
     private String[] firstLine;
     private String[] line;
     static int height;
@@ -40,6 +50,9 @@ public class DataReader {
         String data;
         int posX;
         int posY;
+        int cost;
+        double distanceFromGoal;
+        double currentTotalCost;
         boolean searched = false;
         Coordinate left;
         Coordinate right;
@@ -104,6 +117,12 @@ public class DataReader {
                 coordinate.posX = i;
                 coordinate.posY = j;
                 coordinate.data = this.line[i];
+                //Calculate the total cost:
+                if (coordinate.data.equals(".")|coordinate.data.equals("s")|coordinate.data.equals("g")) {
+                    coordinate.cost = 1;
+                } else if (coordinate.data.equals(",")) {
+                    coordinate.cost = 2;
+                }
                 if (this.mapRow.size() > 0) {
                     coordinate.left = this.mapRow.get(i - 1);
                     coordinate.left.right = coordinate;
@@ -145,21 +164,17 @@ public class DataReader {
         return s;
     }
 
-    private String printPath(Coordinate e) {
+    private String printPath(Coordinate coordinate) {
         totalCost++; //add one cost value for the step into the goal
         this.printout.append(" >- ]" + this.goalY + " ," + this.goalX +"[ 'g'");
         do {
             //Calculate the total cost:
-            if (e.data.equals(".")) {
-                totalCost++;
-            } else if (e.data.equals(",")) {
-                totalCost += 2;
-            }
+            totalCost += coordinate.cost;
             //Build the string detailing the path to the goal:
-            this.printout.append(" >- ]" + e.posY + " ," + e.posX +"[ '" + e.data + "'");
-            e = e.parent;
-        } while (e.parent != null);
-        this.printout.append(" >- ]" + e.posY + " ," + e.posX +"[ '" + e.data + "'");
+            this.printout.append(" >- ]" + coordinate.posY + " ," + coordinate.posX +"[ '" + coordinate.data + "'");
+            coordinate = coordinate.parent;
+        } while (coordinate.parent != null);
+        this.printout.append(" >- ]" + coordinate.posY + " ," + coordinate.posX +"[ '" + coordinate.data + "'");
         this.printout.delete(0, 4);
         this.printout.reverse();
 
@@ -177,17 +192,25 @@ public class DataReader {
     }
 
     public void BFS() throws InterruptedException {
+        long pre = System.nanoTime();
         this.found = false;
         this.nodesExpanded = 0;
         this.start = this.mapData.get(this.startY).get(this.startX);
         cardinalQueue(this.start);
 
         Coordinate current = new Coordinate();
-        while (!this.found) {
+        while (!this.found && !this.q.isEmpty()) {
             current = this.q.dequeue();
             cardinalQueue(current);
         }
-        System.out.println(printPath(current));
+        long post = System.nanoTime();
+        if (this.found) {
+            System.out.println(printPath(current));
+        } else {
+            System.out.println("No path to the goal was found!\tTotal Cost: \u221E" +
+                    "\tNumber of Nodes Expanded During Search: " + nodesExpanded);
+        }
+        System.out.println("Runtime: " + (post - pre) / 1000000.0 + " ms");
     }
 
     public void cardinalQueue(Coordinate coordinate) {
@@ -232,17 +255,25 @@ public class DataReader {
     }
 
     public void DFS() {
+        long pre = System.nanoTime();
         this.found = false;
         this.nodesExpanded = 0;
         this.start = this.mapData.get(startY).get(startX);
         cardinalStack(this.start);
 
         Coordinate current = new Coordinate();
-        while (!this.found) {
+        while (!this.found && !this.stax.isEmpty()) {
             current = this.stax.pop();
             cardinalStack(current);
         }
-        System.out.println(printPath(current));
+        long post = System.nanoTime();
+        if (this.found) {
+            System.out.println(printPath(current));
+        } else {
+            System.out.println("No path to the goal was found!\tTotal Cost: \u221E" +
+                "\tNumber of Nodes Expanded During Search: " + nodesExpanded);
+        }
+        System.out.println("Runtime: " + (post - pre) / 1000000.0 + " ms");
     }
 
     public void cardinalStack(Coordinate coordinate) {
@@ -254,8 +285,8 @@ public class DataReader {
             }
             if (!coordinate.left.searched) {
                 coordinate.left.parent = coordinate;
+                this.stax.add(coordinate.left);
             }
-            this.stax.add(coordinate.left);
         }
         if (!coordinate.right.data.equals("#")) {
             if (coordinate.right.data.equals("g")) {
@@ -263,8 +294,8 @@ public class DataReader {
             }
             if (!coordinate.right.searched) {
                 coordinate.right.parent = coordinate;
+                this.stax.add(coordinate.right);
             }
-            this.stax.add(coordinate.right);
         }
         if (!coordinate.up.data.equals("#")) {
             if (coordinate.up.data.equals("g")) {
@@ -272,8 +303,8 @@ public class DataReader {
             }
             if (!coordinate.up.searched) {
                 coordinate.up.parent = coordinate;
+                this.stax.add(coordinate.up);
             }
-            this.stax.add(coordinate.up);
         }
         if (!coordinate.down.data.equals("#")) {
             if (coordinate.down.data.equals("g")) {
@@ -281,11 +312,75 @@ public class DataReader {
             }
             if (!coordinate.down.searched) {
                 coordinate.down.parent = coordinate;
+                stax.add(coordinate.down);
             }
-            stax.add(coordinate.down);
         }
-        if (this.stax.size() == 0) {
+    }
 
+    public void ASTAR() {
+        long pre = System.nanoTime();
+        this.found = false;
+        this.nodesExpanded = 0;
+        this.start = this.mapData.get(startY).get(startX);
+        priorityQueue(this.start);
+
+        Coordinate current = new Coordinate();
+        while (!this.found && !this.priorityQ.isEmpty()) {
+            current = this.priorityQ.poll();
+            priorityQueue(current);
+        }
+        long post = System.nanoTime();
+        if (this.found) {
+            System.out.println(printPath(current));
+        } else {
+            System.out.println("No path to the goal was found!\tTotal Cost: \u221E" +
+                    "\tNumber of Nodes Expanded During Search: " + nodesExpanded);
+        }
+        System.out.println("Runtime: " + (post - pre) / 1000000.0 + " ms");
+    }
+
+    public void priorityQueue(Coordinate coordinate) {
+        coordinate.searched = true;
+        this.nodesExpanded++;
+        if (!coordinate.left.data.equals("#")) {
+            if (coordinate.left.data.equals("g")) {
+                this.found = true;
+            }
+            if (!coordinate.left.searched) {
+                coordinate.left.parent = coordinate;
+                coordinate.left.currentTotalCost += coordinate.cost;
+                this.priorityQ.add(coordinate.left);
+            }
+        }
+        if (!coordinate.right.data.equals("#")) {
+            if (coordinate.right.data.equals("g")) {
+                found = true;
+            }
+            if (!coordinate.right.searched) {
+                coordinate.right.parent = coordinate;
+                coordinate.right.currentTotalCost += coordinate.cost;
+                this.priorityQ.add(coordinate.right);
+            }
+        }
+        if (!coordinate.up.data.equals("#")) {
+            if (coordinate.up.data.equals("g")) {
+                this.found = true;
+            }
+            if (!coordinate.up.searched) {
+                coordinate.up.parent = coordinate;
+                coordinate.up.currentTotalCost += coordinate.cost;
+                this.priorityQ.add(coordinate.up);
+            }
+        }
+        if (!coordinate.down.data.equals("#")) {
+            if (coordinate.down.data.equals("g")) {
+                this.found = true;
+            }
+            if (!coordinate.down.searched) {
+                coordinate.down.parent = coordinate;
+                coordinate.down.currentTotalCost += coordinate.cost;
+                this.priorityQ.add(coordinate.down);
+            }
         }
     }
 }
