@@ -18,20 +18,34 @@ ________________________________________________________________________________
 
  + src
  ^-- Main.Java
+     The main program scans data and feeds it into searches.
+
+ ^-- DataReader.Java
      This is the main program's description.  It takes these
      arguments, has an interface maybe, and uses a
      particular problem instance (with this appx. runtime).
 
+ ^-- BreadthFirstSearch.Java
+     This is the main program's description.  It takes these
+     arguments, has an interface maybe, and uses a
+     particular problem instance (with this appx. runtime).
 
+ ^-- DepthFirstSearch.Java
+     This is the main program's description.  It takes these
+     arguments, has an interface maybe, and uses a
+     particular problem instance (with this appx. runtime).
 
 ________________________________________________________________________________
 
 2. Reflections
 ________________________________________________________________________________
 
- First (and second) paragraph about my thoughts on the assignment
- - things I liked and things I didn't like.  This is what I've
- learned, and this is how I'd change the assignment if I were
- in charge of creating them.
-
- This is how long it took me to complete it.
+ This project seemed enormous to me, albeit I had extenuated circumstances. In
+ hindsight I spent way too much time trying to optimize my design, instead of
+ creating something that worked first and optimizing for there. I spent several
+ hours on unnecessary GUI setup, which I ended up not using. Overall, I must
+ have spent at least 20 hours on the assignment, which I'm afraid ended up
+ incomplete. I tried this assignment using a new IDE, which complicated matters
+ further. Somewhere between my repository commits I lost code on two occasions.
+ The current code is what was salvaged after some work seems to have
+ disappeared "overnight."

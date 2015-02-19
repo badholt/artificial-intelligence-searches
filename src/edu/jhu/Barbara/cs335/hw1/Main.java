@@ -1,34 +1,21 @@
 package edu.jhu.Barbara.cs335.hw1;
 
-import edu.jhu.Barbara.cs335.hw1.helperPackage.Helper2;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.GeneralPath;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Main extends JApplet {
-    private DrawingCanvas canvas;
+public class Main {
+    //private DrawingCanvas canvas;
+//    public GeneralPath path;
+//    public Main(GeneralPath line) {
+//      this.path = line;
+//    }
     public static String mapImage;
-    public GeneralPath path;
-
-    public Main(GeneralPath line) {
-      this.path = line;
-    }
-
-    public static void main(String[] args) throws IOException {
-        JFrame frame = new JFrame();
-
-        //From scaffolding:
-        Helper f = new Helper();
-        f.setFoo(3);
-        Helper2 b = new Helper2();
-        b.setBar(5);
-
+    public static void main(String[] args) throws IOException, InterruptedException {
         Scanner inputScan = new Scanner(System.in);
-        System.out.println("Please enter your desired map (1 - 8) as the first argument, and then\nyour desired search"
-                + " algorithm (BFS, DFS, or A*) as the second argument.\n\nEX: '1 BFS' for MAP1.TXT and BREADTH FIRST SEARCH");
+        System.out.println("/-----------------------------------------------------------------------------------/" +
+                "\n\tPlease enter your desired map (1 - 8) as the first argument, and then your\n\tdesired search"
+                + " algorithm (BFS, DFS, or A*) as the second argument.\n\n\t\tEX: '1 BFS' for MAP1.TXT and BREADTH" +
+                "FIRST SEARCH\n/-----------------------------------------------------------------------------------/");
         String destination;
         DataReader dataInput = null;
         while (inputScan.hasNext()) {
@@ -75,62 +62,30 @@ public class Main extends JApplet {
             if (search.toUpperCase().equals("BFS")) {
                 //Breadth First Search (BFS):
                 System.out.println("BREADTH FIRST SEARCH (BFS):");
-                BreadthFirstSearch searchOne = new BreadthFirstSearch(dataInput.compass()); //TESTING: ONLY GOOD FOR MAP1-MAP4 & MAP8
-                searchOne.findGoal();
-                Main map = new Main(searchOne.line);
-                map.init();
-                frame.getContentPane().add(map);
-                frame.setDefaultCloseOperation(1);
-                frame.setSize(250, 250);
-                frame.setVisible(true);
+                long pre = System.nanoTime();
+                dataInput.BFS();
+                long post = System.nanoTime();
+                System.out.println("Runtime: " + (post - pre) / 1000000.0 + " ms");
             } else if (search.toUpperCase().equals("DFS")) {
                 //Depth First Search (DFS):
                 System.out.println("\nDEPTH FIRST SEARCH (DFS):");
-                DepthFirstSearch searchTwo = new DepthFirstSearch(dataInput.compass()); //TESTING: ONLY GOOD FOR MAP1-MAP4
-                searchTwo.findGoal();
-                Main map2 = new Main(searchTwo.line);
-                map2.init();
-                frame.getContentPane().add(map2);
-                frame.setDefaultCloseOperation(1);
-                frame.setSize(250, 250);
-                frame.setVisible(true);
+                long pre = System.nanoTime();
+                dataInput.DFS();
+                long post = System.nanoTime();
+                System.out.println("Runtime: " + (post - pre) / 1000000.0 + " ms");
+            } else if (search.toUpperCase().equals("A*")) {
+                //A* Search (ASTAR):
+                System.out.println("\nA* SEARCH (ASTAR):");
+                long pre = System.nanoTime();
+                AStarSearch searchThree = new AStarSearch(dataInput.compass()); //TESTING: ONLY GOOD FOR MAP1-MAP4
+                searchThree.findGoal();
+                long post = System.nanoTime();
+                System.out.println("Runtime: " + (post - pre) / 1000000.0 + " ms");
             }
+            //System.out.print(mapImage);
         }
 
-        dataInput.refreshMap();
         dataInput.closeScanner(); //end use of the map read earlier
         inputScan.close();
-    }
-
-    public void init() {
-        Container container = getContentPane();
-        JPanel panel = new JPanel();
-        canvas = new DrawingCanvas();
-        container.add(canvas);
-    }
-
-    class DrawingCanvas extends Canvas {
-
-        public DrawingCanvas() {
-            setBackground(Color.white);
-            setSize(50, 50);
-        }
-
-        public void paint(Graphics g) {
-            g.setFont(new Font("Century Gothic MT", Font.PLAIN, 14));
-
-            Graphics2D g2D = (Graphics2D) g;
-            drawString(g2D, mapImage, 25, 5);
-            g2D.setPaint(Color.red);
-            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-            g2D.translate(30, 16);
-            g2D.scale(20, 22);
-            g2D.draw(path);
-        }
-
-        void drawString(Graphics g, String mapImage, int x, int y) {
-            for (String line : mapImage.split("\n"))
-                g.drawString(line, x, y += g.getFontMetrics().getHeight());
-        }
     }
 }

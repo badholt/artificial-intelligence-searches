@@ -1,108 +1,143 @@
 package edu.jhu.Barbara.cs335.hw1;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.util.Stack;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 /**
- * Created by Barbara on 2/10/2015.
+ * Created by Barbara on 2/12/2015.
  */
-public class DepthFirstSearch {
-    public Stack<Entry> stax = new Stack<Entry>();
+public class AStarSearch {
     private DataReader.Compass nav;
-    private Entry start;
-    private boolean reachedGoal = false;
+    private StringBuilder printout;
     private String path;
-    private StringBuilder printout = new StringBuilder();
-    private int printMargin = 1;
-    private int totalCost = 0;
-    private int nodesExpanded = -1;
-    private String newList;
+    private int nodesExpanded;
+    private int totalCost;
+    private boolean reachedGoal;
+    private Entry start;
+
+    private PriorityQueue<Entry> q = new PriorityQueue<Entry>(4, new Comparator<Entry>() {
+        @Override
+        public int compare(Entry e1, Entry e2) throws NullPointerException, ClassCastException {
+            if (e1.currentTotalCost + e1.distanceFromGoal < e2.currentTotalCost + e2.distanceFromGoal) {
+                return -1;
+            } else if (e1.currentTotalCost + e1.distanceFromGoal == e2.currentTotalCost + e2.distanceFromGoal) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+    });
+
+    public AStarSearch(DataReader.Compass compass) {
+        this.nav = compass;
+    }
 
     private class Entry {
+        private DataReader.Coordinate coordinate;
         private String value;
         private Entry parent;
-        private DataReader.Coordinate coordinate;
+        private int cost;
+        private int distanceFromGoal;
+        private int currentTotalCost;
         private int posX;
         private int posY;
         private int level;
         boolean leftSearched = false; boolean rightSearched = false;
         boolean upSearched = false; boolean downSearched = false;
-        Entry (Integer x, Integer y, Integer i, Entry prev) {
+
+        Entry(Integer x, Integer y, Integer i, Entry prev) {
             this.parent = prev;
             this.posX = x;
             this.posY = y;
+            this.currentTotalCost = 0;
+            this.distanceFromGoal = (int) Math.sqrt(Math.abs(nav.goalX - this.posX) + Math.abs(nav.goalY - this.posY)); //heuristic?
             this.level = i;
             DataReader.Coordinate data = nav.getCurrent(x, y);
-            this.value = data.data;
             this.coordinate = data;
+            this.value = data.data;
+            if (this.value.equals(".") | this.value.equals("g") | this.value.equals("s")) {
+                this.cost = 1;
+            } else if (this.value.equals(",")) {
+                this.cost = 2;
+            } else {
+                this.cost = 100; //#'s receive an arbitrary, high number to represent the impossibility of the movement
+            }
         }
     }
 
-    public DepthFirstSearch(DataReader.Compass compass) {
-        this.nav = compass;
-    }
-
-    public Entry directStack(Entry e) {
+    public void cardinalEnqueue(Entry e) {
         if (!reachedGoal) {
             if (!e.leftSearched) {
                 Entry left = new Entry(e.posX - 1, e.posY, e.level + 1, e);
                 left.rightSearched = true;
+                left.currentTotalCost = e.currentTotalCost + left.cost;
                 nodesExpanded++;
                 if (left.value.toLowerCase().equals("g")) {
                     this.reachedGoal = true;
                     System.out.println(printPath(left));
-                    return e;
                 } else if (!left.value.equals("#")) {
-                    this.stax.push(left);
+                    this.q.add(e);
                     e.leftSearched = true;
-                    return directStack(left);
                 }
             }
             if (!e.rightSearched) {
                 Entry right = new Entry(e.posX + 1, e.posY, e.level + 1, e);
                 right.leftSearched = true;
+                right.currentTotalCost = e.currentTotalCost + right.cost;
                 nodesExpanded++;
                 if (right.value.toLowerCase().equals("g")) {
                     this.reachedGoal = true;
                     System.out.println(printPath(right));
-                    return e;
                 } else if (!right.value.equals("#")) {
-                    this.stax.push(right);
+                    this.q.add(e);
                     e.rightSearched = true;
-                    return directStack(right);
                 }
             }
             if (!e.upSearched) {
                 Entry up = new Entry(e.posX, e.posY - 1, e.level + 1, e);
                 up.downSearched = true;
+                up.currentTotalCost = e.currentTotalCost + up.cost;
                 nodesExpanded++;
                 if (up.value.toLowerCase().equals("g")) {
                     this.reachedGoal = true;
                     System.out.println(printPath(up));
-                    return e;
                 } else if (!up.value.equals("#")) {
-                    this.stax.push(up);
+                    this.q.add(e);
                     e.upSearched = true;
-                    return directStack(up);
                 }
             }
             if (!e.downSearched) {
                 Entry down = new Entry(e.posX, e.posY + 1, e.level + 1, e);
                 down.upSearched = true;
+                down.currentTotalCost = e.currentTotalCost + down.cost;
                 nodesExpanded++;
                 if (down.value.toLowerCase().equals("g")) {
                     this.reachedGoal = true;
                     System.out.println(printPath(down));
-                    return e;
                 } else if (!down.value.equals("#")) {
-                    this.stax.push(down);
+                    this.q.add(e);
                     e.downSearched = true;
-                    return directStack(down);
                 }
             }
+            findBestStep();
         }
-        return e;
+    }
+
+    private void findBestStep() {
+        if (this.q.size() > 0) {
+            Entry chosen = this.q.poll();
+            while (this.q.size() > 0) {
+                this.q.poll(); //remove the rejects
+            }
+            cardinalEnqueue(chosen);
+        }
+        System.out.println("No path to the goal was found!\tTotal Cost: \u221E" +
+                "\tNumber of Nodes Expanded During Search: " + nodesExpanded);
+    }
+
+    public void findGoal() {
+        this.start = new Entry(this.nav.startX, this.nav.startY, 0, null);
+        cardinalEnqueue(this.start);
     }
 
     private String printPath(Entry e) {
@@ -125,7 +160,7 @@ public class DepthFirstSearch {
 
         //Format the string to conform to a "margin":
         if (this.printout.length() > 70) {
-            printMargin = 1;
+            int printMargin = 1;
             while (this.printout.length() > 70*printMargin + (printMargin - 1)) {
                 this.printout.insert(70*printMargin + (printMargin - 1), "\n");
                 printMargin++;
@@ -136,10 +171,5 @@ public class DepthFirstSearch {
                 + nodesExpanded + "\n");
         this.path = printout.toString();
         return path;
-    }
-
-    public void findGoal() {
-        this.start = new Entry(this.nav.startX, this.nav.startY, 0, null);
-        directStack(this.start);
     }
 }
