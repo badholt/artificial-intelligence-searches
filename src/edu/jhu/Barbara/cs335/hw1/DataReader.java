@@ -237,13 +237,14 @@ public class DataReader {
      */
     private String printVerticalPath(Coordinate coordinate) {
         String s = " [" + this.goalX + ", " + this.goalY + "] Goal\n^";
+        totalCost ++; /**Adds one cost value for the step into the goal*/
         do {
             /**Calculates the total cost:*/
             totalCost += coordinate.cost;
             /**Builds the string detailing the path to the goal:*/
             s += "[" + coordinate.posX + ", " + coordinate.posY +"] '" + coordinate.data + "'\n^";
             coordinate = coordinate.parent;
-        } while (coordinate.parent != this.start);
+        } while (coordinate.parent != null);
         s += "[" + this.startX + ", " + this.startY + "] Start\nTotal Cost of Path: " + totalCost
                 + "\nNumber of Nodes Expanded During Search: " + nodesExpanded + "\n";
         return s;
