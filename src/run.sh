@@ -1,3 +1,3 @@
 #!/bin/bash
 
-make run -C src ARGS="$@"
+make run ARGS="$Xmx2048"

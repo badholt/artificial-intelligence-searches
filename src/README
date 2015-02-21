@@ -18,34 +18,39 @@ ________________________________________________________________________________
 
  + src
  ^-- Main.Java
-     The main program scans data and feeds it into searches.
+     The Main program creates the DataReader object, and interfaces with the
+     user, converting commands into applicable search calls. The interface is a
+     simple text-based prompt, taking arguments in the format of:
+     "[map#] [search name] {optional: vertical/horizontal}"
+     (appx. runtime = )
 
  ^-- DataReader.Java
-     This is the main program's description.  It takes these
-     arguments, has an interface maybe, and uses a
-     particular problem instance (with this appx. runtime).
-
- ^-- BreadthFirstSearch.Java
-     This is the main program's description.  It takes these
-     arguments, has an interface maybe, and uses a
-     particular problem instance (with this appx. runtime).
-
- ^-- DepthFirstSearch.Java
-     This is the main program's description.  It takes these
-     arguments, has an interface maybe, and uses a
-     particular problem instance (with this appx. runtime).
+     This class object contains a scanner to read in files, recreating input
+     maps in ArrayList format. The resulting map is accessed for three different
+     types of searches, Breadth First Search (BFS), Depth First Search (DFS),
+     and ASTAR (A*).  Each search is implemented in a separate method, but
+     shares a common print function.
+     (appx. runtime = ).
 
 ________________________________________________________________________________
 
 2. Reflections
 ________________________________________________________________________________
 
- This project seemed enormous to me, albeit I had extenuated circumstances. In
- hindsight I spent way too much time trying to optimize my design, instead of
- creating something that worked first and optimizing for there. I spent several
- hours on unnecessary GUI setup, which I ended up not using. Overall, I must
- have spent at least 20 hours on the assignment, which I'm afraid ended up
- incomplete. I tried this assignment using a new IDE, which complicated matters
+ This project seemed enormous to me, albeit I had extenuating circumstances
+ (an extension due to medical issues). In hindsight I spent way too much time
+ trying to optimize my design, instead of creating something that worked first
+ and optimizing from there. I spent several hours on unnecessary GUI setup,
+ which I ultimately ended up not using. Overall, I must say I have spent at
+ least 20 hours on the assignment, but mostly on indirect tasks, like the unused
+ GUI. I tried this assignment using a new IDE, which complicated matters
  further. Somewhere between my repository commits I lost code on two occasions.
- The current code is what was salvaged after some work seems to have
- disappeared "overnight."
+ So in the time estimate I'm including set-up time for the IDE and repositories.
+
+ Overall, I thought the assignment was a great refresher for basic data
+ structures, as well as a good introduction to shell scripting for me. The
+ biggest issue I've dealt with programming-wise has been memory resources,
+ whether it's heap space or GC overload. I would have liked to be able to fix
+ the problem by modifying my searches, but I felt that it was turning it into
+ alternative search methods. For example, I implemented a Greedy Best First
+ Search in the process of trying to optimize Breadth First Search.

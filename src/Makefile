@@ -1,12 +1,12 @@
 # Using variables lets us switch tools easily
-JAVAC = javac
-JAVA = java
-JAVADOC = javadoc
-SHELL = bash
+JAVAC=javac
+JAVA=java
+JAVADOC=javadoc
+SHELL=bash
 
 # Where we want the things we build to get put
-BIN_DIR = ../bin
-DOC_DIR = ../doc
+BIN_DIR=../bin
+DOC_DIR=../doc
 
 # Make does not offer a recursive wildcard function, so here's one:
 rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
@@ -14,30 +14,30 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 # Try to compile all .java files anywhere under ./edu/jhu/
 # Note that this is a quick and dirty approach, and won't scale
 # well for larger projects.
-SOURCES := $(call rwildcard,edu/jhu/,*.java)
-OBJECTS := $(patsubst %.java, $(BIN_DIR)/%.class, $(SOURCES))
+SOURCES:=$(call rwildcard,edu/jhu/,*.java)
+OBJECTS:=$(patsubst %.java, $(BIN_DIR)/%.class, $(SOURCES))
 
 # Package that the driver class resides in
-PACKAGE = edu.jhu.ben.cs335.hw1
+PACKAGE=edu.jhu.Barbara.cs335.hw1
 
 #########
 # flags for tools
 #########
 
-JAVAC_FLAGS = -d $(BIN_DIR) -Xlint:all
-JAVADOC_FLAGS = -d $(DOC_DIR) 
-JAVA_FLAGS = -cp $(BIN_DIR)
+JAVAC_FLAGS=-d $(BIN_DIR) -Xlint:all
+JAVADOC_FLAGS=-d $(DOC_DIR) 
+JAVA_FLAGS=-cp $(BIN_DIR)
 
 
 ########
 # targets and build rules
 ########
 
-MAIN_CLASS = HelloWorld
+MAIN_CLASS=Main
 
 # by default (i.e. if no target is specified), 
 # use the "compile the source" target
-default: $(MAIN_CLASS)
+default:$(MAIN_CLASS)
 
 # compile source code into binaries (.class files)
 $(MAIN_CLASS): $(SOURCES) | $(BIN_DIR)

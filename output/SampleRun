@@ -1,0 +1,296 @@
+_____________________________________________________________________________________
+|This Sample Run of the program was copied directly from the Command Line. Some error
+|handling is demonstrated after the problem instance runs, and for sampling purposes
+|the printouts arbitrarily alternate between horizontal and vertical printout styles.
+|NOTE: Map 6 is excluded as it is an incredibly large map.
+|------------------------BEGINNING RUN BELOW v
+/-----------------------------------------------------------------------------------/
+	Please enter your desired map (1 - 8) as the first argument, and then your
+	desired search algorithm (BFS, DFS, or A*) as the second argument.
+
+	OPTIONAL: Specify the path printout direction by adding a third argument to
+	specify whether you want the path printed horizontally (h) or vertically (v).
+	Horizontal print will appear more concise, yet produce greater memory strain.
+	Thus,it is advised to use vertical print on large maps, such as map6.
+
+		EX: '1 BFS' for MAP1.TXT and BREADTH FIRST SEARCH
+/-----------------------------------------------------------------------------------/
+1 bfs
+BREADTH FIRST SEARCH (BFS):
+'s' [1, 1] -> '.' [2, 1] -> '.' [3, 1] -> '.' [4, 1] -> '.' [5, 1] ->
+'.' [6, 1] -> '.' [7, 1] -> 'g' [8, 1]
+Total Cost of Path: 7
+Number of Nodes Expanded During Search: 7
+
+Runtime: 0.068424 ms
+2 bfs v
+BREADTH FIRST SEARCH (BFS):
+ [8, 8] Goal
+^[8, 7] '.'
+^[8, 6] '.'
+^[8, 5] '.'
+^[8, 4] '.'
+^[8, 3] '.'
+^[8, 2] '.'
+^[8, 1] '.'
+^[7, 1] '.'
+^[6, 1] '.'
+^[5, 1] '.'
+^[4, 1] '.'
+^[3, 1] '.'
+^[1, 1] Start
+Total Cost of Path: 12
+Number of Nodes Expanded During Search: 14
+
+Runtime: 0.04191 ms
+3 bfs
+BREADTH FIRST SEARCH (BFS):
+ [8, 8] Goal
+^[7, 8] '.'
+^[6, 8] '.'
+^[6, 7] '.'
+^[6, 6] '.'
+^[6, 5] '.'
+^[5, 5] '.'
+^[4, 5] '.'
+^[4, 4] '.'
+^[4, 3] '.'
+^[4, 2] '.'
+^[4, 1] '.'
+^[3, 1] '.'
+^[1, 1] Start
+Total Cost of Path: 12
+Number of Nodes Expanded During Search: 31
+
+Runtime: 0.068852 ms
+4 bfs h
+BREADTH FIRST SEARCH (BFS):
+'s' [1, 1] -> '.' [2, 1] -> '.' [3, 1] -> '.' [4, 1] -> '.' [4, 2] ->
+'.' [4, 3] -> '.' [4, 4] -> '.' [3, 4] -> '.' [2, 4] -> '.' [1, 4] ->
+'.' [1, 5] -> '.' [1, 6] -> '.' [1, 7] -> '.' [2, 7] -> '.' [3, 7] ->
+'.' [4, 7] -> '.' [5, 7] -> '.' [6, 7] -> '.' [6, 8] -> '.' [6, 9] ->
+'.' [7, 9] -> '.' [8, 9] -> 'g' [9, 9]
+Total Cost of Path: 22
+Number of Nodes Expanded During Search: 44
+
+Runtime: 0.082537 ms
+5 bfs
+BREADTH FIRST SEARCH (BFS):
+'s' [1, 1] -> '.' [2, 1] -> ',' [2, 2] -> ',' [3, 2] -> ',' [3, 3] ->
+',' [3, 4] -> ',' [3, 5] -> '.' [3, 6] -> ',' [3, 7] -> ',' [4, 7] ->
+'.' [5, 7] -> '.' [5, 8] -> '.' [6, 8] -> '.' [7, 8] -> 'g' [7, 7]
+Total Cost of Path: 21
+Number of Nodes Expanded During Search: 275
+
+Runtime: 0.348965 ms
+7 bfs v
+BREADTH FIRST SEARCH (BFS):
+No path to the goal was found!	Total Cost: ∞	Number of Nodes Expanded During Search: 45
+Runtime: 0.061154 ms
+8 bfs
+BREADTH FIRST SEARCH (BFS):
+ [8, 8] Goal
+^[7, 8] ','
+^[6, 8] ','
+^[6, 7] ','
+^[6, 6] ','
+^[6, 5] ','
+^[6, 4] ','
+^[6, 3] ','
+^[6, 2] ','
+^[5, 2] '.'
+^[4, 2] '.'
+^[3, 2] '.'
+^[1, 2] Start
+Total Cost of Path: 19
+Number of Nodes Expanded During Search: 27
+
+Runtime: 0.242907 ms
+1 dfs
+
+DEPTH FIRST SEARCH (DFS):
+ [8, 1] Goal
+^[7, 1] '.'
+^[6, 1] '.'
+^[5, 1] '.'
+^[4, 1] '.'
+^[3, 1] '.'
+^[1, 1] Start
+Total Cost of Path: 5
+Number of Nodes Expanded During Search: 7
+
+Runtime: 0.056451 ms
+2 dfs h
+
+DEPTH FIRST SEARCH (DFS):
+'s' [1, 1] -> '.' [2, 1] -> '.' [3, 1] -> '.' [4, 1] -> '.' [5, 1] ->
+'.' [6, 1] -> '.' [7, 1] -> '.' [8, 1] -> '.' [8, 2] -> '.' [8, 3] ->
+'.' [8, 4] -> '.' [8, 5] -> '.' [8, 6] -> '.' [8, 7] -> 'g' [8, 8]
+Total Cost of Path: 14
+Number of Nodes Expanded During Search: 14
+
+Runtime: 0.0402 ms
+3 dfs
+
+DEPTH FIRST SEARCH (DFS):
+'s' [1, 1] -> '.' [2, 1] -> '.' [3, 1] -> '.' [4, 1] -> '.' [4, 2] ->
+'.' [4, 3] -> '.' [4, 4] -> '.' [4, 5] -> '.' [5, 5] -> '.' [6, 5] ->
+'.' [6, 6] -> '.' [6, 7] -> '.' [6, 8] -> '.' [7, 8] -> 'g' [8, 8]
+Total Cost of Path: 14
+Number of Nodes Expanded During Search: 16
+
+Runtime: 0.044476 ms
+4 dfs
+
+DEPTH FIRST SEARCH (DFS):
+'s' [1, 1] -> '.' [2, 1] -> '.' [3, 1] -> '.' [4, 1] -> '.' [4, 2] ->
+'.' [4, 3] -> '.' [4, 4] -> '.' [3, 4] -> '.' [2, 4] -> '.' [1, 4] ->
+'.' [1, 5] -> '.' [1, 6] -> '.' [1, 7] -> '.' [1, 8] -> '.' [1, 9] ->
+'.' [2, 9] -> '.' [3, 9] -> '.' [4, 9] -> '.' [4, 8] -> '.' [4, 7] ->
+'.' [5, 7] -> '.' [6, 7] -> '.' [6, 8] -> '.' [6, 9] -> '.' [7, 9] ->
+'.' [8, 9] -> 'g' [9, 9]
+Total Cost of Path: 26
+Number of Nodes Expanded During Search: 40
+
+Runtime: 0.058161 ms
+5 dfs
+
+DEPTH FIRST SEARCH (DFS):
+'s' [1, 1] -> '.' [2, 1] -> ',' [2, 2] -> ',' [3, 2] -> ',' [3, 3] ->
+',' [3, 4] -> ',' [3, 5] -> '.' [3, 6] -> ',' [3, 7] -> ',' [4, 7] ->
+'.' [5, 7] -> '.' [5, 8] -> '.' [6, 8] -> '.' [7, 8] -> 'g' [7, 7]
+Total Cost of Path: 21
+Number of Nodes Expanded During Search: 51
+
+Runtime: 0.062438 ms
+7 dfs
+
+DEPTH FIRST SEARCH (DFS):
+No path to the goal was found!	Total Cost: ∞	Number of Nodes Expanded During Search: 39
+Runtime: 0.067142 ms
+8 dfs
+
+DEPTH FIRST SEARCH (DFS):
+'s' [1, 2] -> '.' [2, 2] -> '.' [3, 2] -> '.' [4, 2] -> '.' [5, 2] ->
+'.' [5, 1] -> '.' [6, 1] -> ',' [6, 2] -> ',' [6, 3] -> ',' [6, 4] ->
+',' [6, 5] -> ',' [6, 6] -> ',' [6, 7] -> ',' [6, 8] -> ',' [7, 8] ->
+'g' [8, 8]
+Total Cost of Path: 23
+Number of Nodes Expanded During Search: 15
+
+Runtime: 0.039344 ms
+1 A*
+
+A* SEARCH (ASTAR):
+'s' [1, 1] -> '.' [2, 1] -> '.' [3, 1] -> '.' [4, 1] -> '.' [5, 1] ->
+'.' [6, 1] -> '.' [7, 1] -> 'g' [8, 1]
+Total Cost of Path: 7
+Number of Nodes Expanded During Search: 7
+
+Runtime: 0.03635 ms
+2 A*
+
+A* SEARCH (ASTAR):
+'s' [1, 1] -> '.' [2, 1] -> '.' [3, 1] -> '.' [4, 1] -> '.' [5, 1] ->
+'.' [6, 1] -> '.' [7, 1] -> '.' [8, 1] -> '.' [8, 2] -> '.' [8, 3] ->
+'.' [8, 4] -> '.' [8, 5] -> '.' [8, 6] -> '.' [8, 7] -> 'g' [8, 8]
+Total Cost of Path: 14
+Number of Nodes Expanded During Search: 14
+
+Runtime: 0.025232 ms
+3 A* v
+
+A* SEARCH (ASTAR):
+ [8, 8] Goal
+^[7, 8] '.'
+^[6, 8] '.'
+^[6, 7] '.'
+^[6, 6] '.'
+^[6, 5] '.'
+^[5, 5] '.'
+^[4, 5] '.'
+^[4, 4] '.'
+^[4, 3] '.'
+^[4, 2] '.'
+^[4, 1] '.'
+^[3, 1] '.'
+^[1, 1] Start
+Total Cost of Path: 14
+Number of Nodes Expanded During Search: 30
+
+Runtime: 0.108624 ms
+4 A* h
+
+A* SEARCH (ASTAR):
+'s' [1, 1] -> '.' [2, 1] -> '.' [3, 1] -> '.' [4, 1] -> '.' [4, 2] ->
+'.' [4, 3] -> '.' [4, 4] -> '.' [3, 4] -> '.' [2, 4] -> '.' [1, 4] ->
+'.' [1, 5] -> '.' [1, 6] -> '.' [1, 7] -> '.' [2, 7] -> '.' [3, 7] ->
+'.' [4, 7] -> '.' [5, 7] -> '.' [6, 7] -> '.' [6, 8] -> '.' [6, 9] ->
+'.' [7, 9] -> '.' [8, 9] -> 'g' [9, 9]
+Total Cost of Path: 22
+Number of Nodes Expanded During Search: 40
+
+Runtime: 0.107341 ms
+5 A*
+
+A* SEARCH (ASTAR):
+'s' [1, 1] -> '.' [2, 1] -> '.' [3, 1] -> '.' [4, 1] -> '.' [4, 2] ->
+'.' [4, 3] -> '.' [4, 4] -> '.' [4, 5] -> '.' [4, 6] -> ',' [4, 7] ->
+'.' [5, 7] -> '.' [5, 8] -> '.' [6, 8] -> '.' [7, 8] -> 'g' [7, 7]
+Total Cost of Path: 15
+Number of Nodes Expanded During Search: 36
+
+Runtime: 0.138131 ms
+7 A*
+
+A* SEARCH (ASTAR):
+No path to the goal was found!	Total Cost: ∞	Number of Nodes Expanded During Search: 45
+Runtime: 0.083392 ms
+8 A*
+
+A* SEARCH (ASTAR):
+'s' [1, 2] -> '.' [2, 2] -> '.' [3, 2] -> '.' [4, 2] -> '.' [5, 2] ->
+',' [6, 2] -> ',' [6, 3] -> ',' [6, 4] -> ',' [6, 5] -> ',' [6, 6] ->
+',' [6, 7] -> ',' [6, 8] -> ',' [7, 8] -> 'g' [8, 8]
+Total Cost of Path: 21
+Number of Nodes Expanded During Search: 17
+
+Runtime: 0.068425 ms
+9 A*
+
+A* SEARCH (ASTAR):
+'s' [1, 1] -> '.' [2, 1] -> '.' [3, 1] -> '.' [4, 1] -> '.' [5, 1] ->
+'.' [6, 1] -> '.' [7, 1] -> 'g' [8, 1]
+Total Cost of Path: 7
+Number of Nodes Expanded During Search: 7
+
+Runtime: 0.009408 ms
+9A*
+
+/-----------------------------------------------------------------------------------/
+	Please enter your desired map (1 - 8) as the first argument, and then your
+	desired search algorithm (BFS, DFS, or A*) as the second argument.
+
+	OPTIONAL: Specify the path printout direction by adding a third argument to
+	specify whether you want the path printed horizontally (h) or vertically (v).
+	Horizontal print will appear more concise, yet produce greater memory strain.
+	Thus,it is advised to use vertical print on large maps, such as map6.
+
+		EX: '1 BFS' for MAP1.TXT and BREADTH FIRST SEARCH
+/-----------------------------------------------------------------------------------/
+A* 9
+
+/-----------------------------------------------------------------------------------/
+	Please enter your desired map (1 - 8) as the first argument, and then your
+	desired search algorithm (BFS, DFS, or A*) as the second argument.
+
+	OPTIONAL: Specify the path printout direction by adding a third argument to
+	specify whether you want the path printed horizontally (h) or vertically (v).
+	Horizontal print will appear more concise, yet produce greater memory strain.
+	Thus,it is advised to use vertical print on large maps, such as map6.
+
+		EX: '1 BFS' for MAP1.TXT and BREADTH FIRST SEARCH
+/-----------------------------------------------------------------------------------/
+EXIT
+
+Process finished with exit code 0
